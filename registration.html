@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Register</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(120deg,#ff9966,#ff5e62);
+}
+
+/* MAIN CONTAINER */
+
+.container{
+width:900px;
+max-width:95%;
+background:white;
+border-radius:12px;
+display:flex;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+/* LEFT PANEL */
+
+.left{
+flex:1;
+background:linear-gradient(135deg,#ff7e5f,#feb47b);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:40px;
+text-align:center;
+}
+
+.left i{
+font-size:70px;
+margin-bottom:20px;
+}
+
+.left h1{
+margin-bottom:10px;
+}
+
+/* RIGHT PANEL */
+
+.right{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+.right h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+/* INPUT BOX */
+
+.input-box{
+position:relative;
+margin-bottom:12px;
+}
+
+.input-box input,
+.input-box select{
+width:100%;
+padding:12px 40px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:14px;
+}
+
+.input-box i{
+position:absolute;
+left:12px;
+top:12px;
+color:#888;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:12px;
+border:none;
+background:#ff6b6b;
+color:white;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#ff4757;
+}
+
+.login-link{
+text-align:center;
+margin-top:10px;
+font-size:14px;
+}
+
+.login-link a{
+color:#ff6b6b;
+text-decoration:none;
+font-weight:bold;
+}
+
+.error{
+color:red;
+font-size:13px;
+text-align:center;
+margin-top:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.container{
+flex-direction:column;
+}
+
+.left{
+padding:25px;
+}
+
+.left i{
+font-size:50px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT SIDE -->
+
+<div class="left">
+
+<i class="fa-solid fa-utensils"></i>
+
+<h1>Cooking Helper</h1>
+
+<p>Plan your daily cooking easily</p>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="right">
+
+<h2>User Registration</h2>
+
+<form onsubmit="return validateForm()">
+
+<div class="input-box">
+<i class="fa fa-user"></i>
+<input type="text" id="name" placeholder="Full Name" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-phone"></i>
+<input type="text" id="mobile" placeholder="Mobile Number" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-calendar"></i>
+<input type="date" id="dob" onchange="calculateAge()" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-user-clock"></i>
+<input type="text" id="age" placeholder="Age" readonly>
+</div>
+
+<div class="input-box">
+<i class="fa fa-users"></i>
+<select id="members" required>
+<option value="">Family Members</option>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5+</option>
+</select>
+</div>
+
+<div class="input-box">
+<i class="fa fa-lock"></i>
+<input type="password" id="password" placeholder="Password" required>
+</div>
+
+<div class="input-box">
+<i class="fa fa-lock"></i>
+<input type="password" id="confirm" placeholder="Confirm Password" required>
+</div>
+
+<button type="submit">Register</button>
+
+<p class="error" id="errorMsg"></p>
+
+</form>
+
+<div class="login-link">
+Already have account?
+<a href="login.html">Login</a>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function calculateAge(){
+
+let dob=document.getElementById("dob").value;
+
+if(dob=="") return;
+
+let birthDate=new Date(dob);
+let today=new Date();
+
+let age=today.getFullYear()-birthDate.getFullYear();
+
+let m=today.getMonth()-birthDate.getMonth();
+
+if(m<0 || (m===0 && today.getDate()<birthDate.getDate())){
+age--;
+}
+
+document.getElementById("age").value=age;
+
+}
+
+function validateForm(){
+
+let name=document.getElementById("name").value;
+let mobile=document.getElementById("mobile").value;
+let address=document.getElementById("address").value;
+let password=document.getElementById("password").value;
+let confirm=document.getElementById("confirm").value;
+
+let error=document.getElementById("errorMsg");
+
+let pattern=/^[0-9]{10}$/;
+
+if(name==""){
+error.innerHTML="Enter your name";
+return false;
+}
+
+if(!pattern.test(mobile)){
+error.innerHTML="Enter valid 10 digit mobile number";
+return false;
+}
+
+if(address==""){
+error.innerHTML="Enter address";
+return false;
+}
+
+if(password.length<6){
+error.innerHTML="Password must be at least 6 characters";
+return false;
+}
+
+if(password!=confirm){
+error.innerHTML="Passwords do not match";
+return false;
+}
+
+alert("Registration Successful");
+
+return false;
+
+}
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cooking Helper Home</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",sans-serif;
+}
+
+body{
+background:#f5f5f5;
+}
+
+/* NAVBAR */
+
+nav{
+background:#ff6b6b;
+color:white;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+}
+
+nav ul li{
+margin-left:20px;
+cursor:pointer;
+}
+
+/* LANGUAGE SELECT */
+
+select{
+padding:5px;
+border-radius:4px;
+border:none;
+}
+
+/* HERO */
+
+.hero{
+height:380px;
+background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
+url("https://images.unsplash.com/photo-1498837167922-ddd27525d352");
+background-size:cover;
+background-position:center;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.hero p{
+margin-bottom:15px;
+}
+
+/* MAIN BUTTON */
+
+.hero button{
+padding:12px 25px;
+background:#ff6b6b;
+border:none;
+border-radius:6px;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+/* LOGIN REGISTER BUTTONS */
+
+.auth-buttons{
+margin-top:20px;
+display:flex;
+gap:15px;
+}
+
+.auth-buttons a{
+text-decoration:none;
+}
+
+.auth-buttons button{
+padding:10px 22px;
+border:none;
+border-radius:6px;
+background:#ffffff;
+color:#ff6b6b;
+font-weight:bold;
+cursor:pointer;
+}
+
+.auth-buttons button:hover{
+background:#ffe6e6;
+}
+
+/* CARD SECTION */
+
+.section{
+padding:50px 30px;
+text-align:center;
+}
+
+.cards{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:25px;
+margin-top:30px;
+}
+
+.card{
+background:white;
+width:250px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card i{
+font-size:40px;
+color:#ff6b6b;
+margin-bottom:10px;
+}
+
+.card button{
+margin-top:10px;
+padding:8px 15px;
+border:none;
+background:#ff6b6b;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+align-items:flex-start;
+}
+
+nav ul{
+flex-direction:column;
+width:100%;
+margin-top:10px;
+}
+
+nav ul li{
+margin:8px 0;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.cards{
+flex-direction:column;
+align-items:center;
+}
+
+.card{
+width:90%;
+}
+
+.auth-buttons{
+flex-direction:column;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<h2><i class="fa-solid fa-utensils"></i> Cooking Helper</h2>
+
+<ul>
+<li id="homeText">Home</li>
+<li id="menuText">Weekly Menu</li>
+<li id="recipeText">Recipes</li>
+<li id="ingredientText">Ingredients</li>
+</ul>
+
+<select id="language" onchange="changeLanguage()">
+<option value="en">English</option>
+<option value="mr">Marathi</option>
+<option value="hi">Hindi</option>
+</select>
+
+</nav>
+
+<div class="hero">
+
+<h1 id="title">What Should I Cook Today?</h1>
+
+<p id="subtitle">Plan your daily meals easily</p>
+
+<button id="todayBtn">View Today Menu</button>
+
+<div class="auth-buttons">
+
+<a href="login.html">
+<button id="loginBtn">Login</button>
+</a>
+
+<a href="registration.html">
+<button id="registerBtn">Register</button>
+</a>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2 id="explore">Explore Recipes</h2>
+
+<div class="cards">
+
+<div class="card">
+<i class="fa-solid fa-bowl-food"></i>
+<h3 id="sabji">Sabji</h3>
+<button>View</button>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-bread-slice"></i>
+<h3 id="roti">Roti</h3>
+<button>View</button>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-cake-candles"></i>
+<h3 id="sweet">Sweet Dish</h3>
+<button>View</button>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-clock"></i>
+<h3 id="quick">Quick Recipes</h3>
+<button>View</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const translations={
+
+en:{
+home:"Home",
+menu:"Weekly Menu",
+recipe:"Recipes",
+ingredient:"Ingredients",
+title:"What Should I Cook Today?",
+subtitle:"Plan your daily meals easily",
+todayBtn:"View Today Menu",
+explore:"Explore Recipes",
+sabji:"Sabji",
+roti:"Roti",
+sweet:"Sweet Dish",
+quick:"Quick Recipes",
+login:"Login",
+register:"Register"
+},
+
+mr:{
+home:"मुख्यपृष्ठ",
+menu:"आठवड्याचे मेनू",
+recipe:"रेसिपी",
+ingredient:"साहित्य",
+title:"आज काय बनवायचे?",
+subtitle:"दररोजच्या जेवणाची योजना करा",
+todayBtn:"आजचा मेनू पहा",
+explore:"रेसिपी पहा",
+sabji:"भाजी",
+roti:"पोळी",
+sweet:"गोड पदार्थ",
+quick:"झटपट रेसिपी",
+login:"लॉगिन",
+register:"नोंदणी"
+},
+
+hi:{
+home:"होम",
+menu:"साप्ताहिक मेनू",
+recipe:"रेसिपी",
+ingredient:"सामग्री",
+title:"आज क्या पकाएं?",
+subtitle:"अपने दैनिक भोजन की योजना बनाएं",
+todayBtn:"आज का मेनू देखें",
+explore:"रेसिपी देखें",
+sabji:"सब्जी",
+roti:"रोटी",
+sweet:"मिठाई",
+quick:"जल्दी बनने वाली रेसिपी",
+login:"लॉगिन",
+register:"रजिस्टर"
+}
+
+};
+
+function changeLanguage(){
+
+let lang=document.getElementById("language").value;
+
+localStorage.setItem("language",lang);
+
+applyLanguage(lang);
+
+}
+
+function applyLanguage(lang){
+
+document.getElementById("homeText").innerText=translations[lang].home;
+document.getElementById("menuText").innerText=translations[lang].menu;
+document.getElementById("recipeText").innerText=translations[lang].recipe;
+document.getElementById("ingredientText").innerText=translations[lang].ingredient;
+
+document.getElementById("title").innerText=translations[lang].title;
+document.getElementById("subtitle").innerText=translations[lang].subtitle;
+document.getElementById("todayBtn").innerText=translations[lang].todayBtn;
+
+document.getElementById("explore").innerText=translations[lang].explore;
+
+document.getElementById("sabji").innerText=translations[lang].sabji;
+document.getElementById("roti").innerText=translations[lang].roti;
+document.getElementById("sweet").innerText=translations[lang].sweet;
+document.getElementById("quick").innerText=translations[lang].quick;
+
+document.getElementById("loginBtn").innerText=translations[lang].login;
+document.getElementById("registerBtn").innerText=translations[lang].register;
+
+}
+
+let savedLang=localStorage.getItem("language") || "en";
+
+document.getElementById("language").value=savedLang;
+
+applyLanguage(savedLang);
+
+</script>
+
+</body>
+</html>
