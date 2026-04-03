@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* --- CSS VARIABLES FOR THEMING --- */
+:root {
+  /* Day Colors (Light Pastel) */
+  --color-mon: #f0fdf4; /* faint green */
+  --color-tue: #eff6ff; /* faint blue */
+  --color-wed: #fdf4ff; /* faint purple */
+  --color-thu: #fffbeb; /* faint yellow */
+  --color-fri: #fff1f2; /* faint red/pink */
+  --color-sat: #f5f3ff; /* faint violet */
+  --color-sun: #fff7ed; /* faint orange */
+
+  /* Meal Colors (For Headers) */
+  --color-breakfast: #fed7aa; /* orange/peach */
+  --color-lunch: #bbf7d0;     /* light green */
+  --color-dinner: #c7d2fe;    /* light indigo */
+
+  /* Default brand colors */
+  --primary-color: #3b82f6; 
+  --primary-hover: #2563eb;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  
+  /* Layout */
+  --border-radius: 12px;
+}
+
+/* --- BASE RESET --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  /* High quality culinary background mapped from a CDN to assure relevance and premium aesthetics */
+  background: url('https://images.unsplash.com/photo-1498837167339-54df3c560cb6?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-dark);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* Add a dark overlay to make text more readable against the image */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.75); /* Light glass overlay */
+  backdrop-filter: blur(8px);
+  z-index: -1;
+}
+
+h1.page-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #0f172a;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* --- CONTROL PANEL / FORM --- */
+.controls-container {
+  background: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  padding: 24px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group label {
+  font-weight: 600;
+  color: #334155;
+}
+
+select, input[type="checkbox"] {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.btn-generate {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+}
+
+.btn-generate:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* --- TIMETABLE STRUCTURE --- */
+.timetable-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto; /* Responsive scrolling */
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.weekly-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Table Headers */
+.weekly-table th {
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.header-empty { background: #f8fafc; }
+.header-breakfast { background-color: var(--color-breakfast); }
+.header-lunch { background-color: var(--color-lunch); }
+.header-dinner { background-color: var(--color-dinner); }
+
+/* Table Body Cells */
+.weekly-table td {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.day-header {
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 120px;
+  vertical-align: middle !important;
+}
+
+/* Day Row Colors */
+tr[data-day="Monday"] .day-header { background-color: var(--color-mon); }
+tr[data-day="Tuesday"] .day-header { background-color: var(--color-tue); }
+tr[data-day="Wednesday"] .day-header { background-color: var(--color-wed); }
+tr[data-day="Thursday"] .day-header { background-color: var(--color-thu); }
+tr[data-day="Friday"] .day-header { background-color: var(--color-fri); }
+tr[data-day="Saturday"] .day-header { background-color: var(--color-sat); }
+tr[data-day="Sunday"] .day-header { background-color: var(--color-sun); }
+
+/* Apply subtle background to the meal cells based on day color */
+tr[data-day="Monday"] td:not(.day-header) { background-color: rgba(240, 253, 244, 0.4); }
+tr[data-day="Tuesday"] td:not(.day-header) { background-color: rgba(239, 246, 255, 0.4); }
+tr[data-day="Wednesday"] td:not(.day-header) { background-color: rgba(253, 244, 255, 0.4); }
+tr[data-day="Thursday"] td:not(.day-header) { background-color: rgba(255, 251, 235, 0.4); }
+tr[data-day="Friday"] td:not(.day-header) { background-color: rgba(255, 241, 242, 0.4); }
+tr[data-day="Saturday"] td:not(.day-header) { background-color: rgba(245, 243, 255, 0.4); }
+tr[data-day="Sunday"] td:not(.day-header) { background-color: rgba(255, 247, 237, 0.4); }
+
+/* --- RECIPE OPTIONS INSIDE CELLS --- */
+.recipe-options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recipe-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.recipe-option:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.recipe-name {
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.btn-view {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-view:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* --- RECIPE MODAL (POPUP) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.btn-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 1.5rem;
+  color: #94a3b8;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.btn-close:hover { color: #ef4444; }
+
+.modal-header {
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.modal-servings {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Modal Body Grid */
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.ingredients-section {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.ingredients-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 2px solid #e2e8f0;
+}
+
+.ingredients-list {
+  list-style-position: inside;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.steps-section {
+  padding: 10px 0;
+}
+
+.steps-list {
+  padding-left: 20px;
+  color: #334155;
+  line-height: 1.8;
+}
+
+/* --- RESPONSIVE TABLETS/MOBILE --- */
+@media (max-width: 768px) {
+  .controls-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .modal-body {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Make table easier to read on small screens */
+  .weekly-table th, .weekly-table td {
+    padding: 10px;
+  }
+  
+  .day-header {
+    width: auto;
+  }
+}

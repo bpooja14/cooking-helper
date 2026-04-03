@@ -1,303 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Cooking Helper - Weekly Menu</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI";}
-
-body{background:#f4f6f9;padding:20px;}
-
-h1{text-align:center;margin-bottom:20px;}
-
-/* FORM */
-
-.form-box{
-background:white;padding:15px;border-radius:10px;
-max-width:650px;margin:0 auto 20px;text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-.members-box{
-display:flex;justify-content:center;gap:10px;margin:10px;
-}
-
-.meals label{margin:0 10px;}
-
-/* GRID */
-
-.menu{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-}
-
-.card{
-background:white;padding:10px;border-radius:10px;
-box-shadow:0 5px 10px rgba(0,0,0,0.1);
-}
-
-.card h3{text-align:center;color:#ff6b6b;}
-
-/* CENTER WEEKEND */
-
-.card:nth-child(6){grid-column:2;}
-.card:nth-child(7){grid-column:3;}
-
-/* MEALS */
-
-.meal{margin-top:10px;padding:8px;border-radius:6px;}
-.breakfast{background:#fff3cd;}
-.lunch{background:#d4edda;}
-.dinner{background:#d1ecf1;}
-
-.item{
-display:flex;justify-content:space-between;margin:3px 0;
-}
-
-button{
-border:none;background:#ff6b6b;color:white;
-padding:4px 8px;border-radius:5px;cursor:pointer;
-}
-
-/* POPUP */
-
-.popup{
-display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,0.6);justify-content:center;align-items:center;
-}
-
-.popup-content{
-background:white;padding:20px;width:95%;max-width:700px;
-border-radius:10px;position:relative;
-}
-
-.close{
-position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;
-}
-
-/* SIDE LAYOUT */
-
-.recipe-layout{
-display:flex;gap:20px;margin-top:10px;
-}
-
-.left,.right{
-flex:1;background:#f9f9f9;padding:10px;border-radius:6px;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-.menu{grid-template-columns:1fr;}
-.recipe-layout{flex-direction:column;}
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Cooking Plan</title>
+  <link rel="stylesheet" href="./weekly_style.css">
 </head>
-
 <body>
 
-<h1>Weekly Cooking Menu</h1>
+  <!-- Top Navigation -->
+  <div style="display: flex; justify-content: center; padding: 10px 30px; background: rgba(255,255,255,0.8); border-radius: 10px; margin-bottom: 20px;">
+    <h2><i class="fa-solid fa-utensils"></i> Cooking Helper</h2>
+  </div>
 
-<!-- FORM -->
+  <header>
+    <h1 class="page-title">Weekly Cooking Plan</h1>
+  </header>
 
-<div class="form-box">
+  <main>
+    <form id="timetable-form" class="controls-container">
+      <div class="control-group">
+        <label for="food-type">Cuisine:</label>
+        <select id="food-type">
+          <option value="indian">Indian</option>
+          <option value="chinese">Chinese</option>
+          <option value="continental">Continental</option>
+          <option value="south indian">South Indian</option>
+        </select>
+      </div>
 
-Food Type :
-<select id="type">
-<option value="indian">Indian</option>
-<option value="south">South Indian</option>
-<option value="north">North Indian</option>
-<option value="chinese">Chinese</option>
-<option value="italian">Italian</option>
-<option value="continental">Continental</option>
-</select>
+      <div class="control-group">
+        <label for="diet-type">Diet:</label>
+        <select id="diet-type">
+          <option value="veg">Veg</option>
+          <option value="non-veg">Non-Veg</option>
+        </select>
+      </div>
 
-<div class="members-box">
+      <div class="control-group">
+        <label>Meals:</label>
+        <input type="checkbox" id="meal-breakfast" checked> <label for="meal-breakfast">Breakfast</label>
+        <input type="checkbox" id="meal-lunch" checked> <label for="meal-lunch">Lunch</label>
+        <input type="checkbox" id="meal-dinner" checked> <label for="meal-dinner">Dinner</label>
+      </div>
 
-Member : <button onclick="changeMember(-1)">-</button>
-<span id="members">4</span>
-<button onclick="changeMember(1)">+</button>
-</div>
+      <button type="submit" class="btn-generate">Generate Plan</button>
+    </form>
 
-<div class="meals">
-Meals : <label><input type="checkbox" id="breakfast" checked> Breakfast</label>
-<label><input type="checkbox" id="lunch" checked> Lunch</label>
-<label><input type="checkbox" id="dinner" checked> Dinner</label>
-</div>
+    <section class="timetable-wrapper">
+      <table class="weekly-table" id="timetable">
+        <thead>
+          <tr id="table-head-row">
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </section>
+  </main>
 
-<br><button onclick="generateMenu()">Generate Menu</button>
+  <!-- RECIPE DETAILS MODAL -->
+  <div class="modal-overlay" id="recipe-modal">
+    <div class="modal-content">
+        <button class="btn-close" aria-label="Close modal">✖</button>
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-title">Recipe Name</h2>
+            <p class="modal-servings" id="modal-servings">Serves: 4 people</p>
+        </div>
+        <div class="modal-body">
+            <div class="ingredients-section">
+                <h3>Ingredients</h3>
+                <img src="" id="modal-image" class="ingredients-image" alt="Recipe Preview">
+                <ul class="ingredients-list" id="modal-ingredients-list"></ul>
+            </div>
+            <div class="steps-section">
+                <h3>Steps to Prepare</h3>
+                <ol class="steps-list" id="modal-steps-list"></ol>
+                
+                <!-- Video Section -->
+                <button id="btn-show-video" class="btn-generate" style="margin-top:20px; width:100%;">Click to Watch Recipe Video</button>
+                <div id="modal-video-container" style="display:none; margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+  </div>
 
-</div>
-
-<!-- MENU -->
-
-<div class="menu" id="menu"></div>
-
-<!-- POPUP -->
-
-<div class="popup" id="popup">
-<div class="popup-content">
-
-<span class="close" onclick="closePopup()">✖</span>
-
-<h2 id="title" style="text-align:center;"></h2>
-
-<div class="recipe-layout">
-
-<div class="left">
-<h4>Ingredients</h4>
-<p id="ingredients"></p>
-</div>
-
-<div class="right">
-<h4>Steps</h4>
-<p id="steps"></p>
-</div>
-
-</div>
-
-<p><b>Health:</b> <span id="health"></span></p>
-
-<br>
-
-<button onclick="watchVideo()">Watch Video</button>
-
-</div>
-</div>
-
-<script>
-
-// DATA
-
-let recipeData={
-indian:[
-{name:"Poha",ing:"Poha, onion, oil",steps:"Wash poha → Fry onion → Add poha → Cook",health:"Light & easy",video:"poha recipe"},
-{name:"Dal Rice",ing:"Dal, rice",steps:"Cook dal → Cook rice → Serve",health:"Protein rich",video:"dal rice recipe"},
-{name:"Roti Sabji",ing:"Flour, vegetables",steps:"Make dough → Roll roti → Cook sabji",health:"Balanced diet",video:"roti sabji recipe"}
-],
-south:[
-{name:"Idli",ing:"Rice batter",steps:"Steam batter",health:"Low fat",video:"idli recipe"},
-{name:"Dosa",ing:"Batter",steps:"Cook dosa on pan",health:"Good carbs",video:"dosa recipe"}
-],
-chinese:[
-{name:"Noodles",ing:"Noodles, veg",steps:"Boil → Fry → Mix",health:"Energy food",video:"noodles recipe"},
-{name:"Fried Rice",ing:"Rice, sauce",steps:"Cook rice → Mix sauce",health:"Filling meal",video:"fried rice recipe"}
-]
-};
-
-let fruits=["Apple","Banana","Orange","Papaya","Mango","Guava","Pomegranate"];
-let days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-
-let currentVideo="";
-
-// MEMBERS
-
-function changeMember(v){
-let m=parseInt(document.getElementById("members").innerText);
-m+=v;
-if(m<1)m=1;
-document.getElementById("members").innerText=m;
-}
-
-// MENU
-
-function generateMenu(){
-
-let type=document.getElementById("type").value;
-let list=recipeData[type] || recipeData["indian"];
-
-let showB=breakfast.checked;
-let showL=lunch.checked;
-let showD=dinner.checked;
-
-let menu=document.getElementById("menu");
-menu.innerHTML="";
-
-for(let i=0;i<7;i++){
-
-let r1=list[i%list.length];
-let r2=list[(i+1)%list.length];
-let fruit=fruits[i%fruits.length];
-
-let card="<div class='card'><h3>"+days[i]+"</h3>";
-
-if(showB){
-card+=`
-<div class="meal breakfast">
-<b>🥞 Breakfast</b>
-<div class="item">${r1.name}<button onclick="show('${r1.name}')">View</button></div>
-<div class="item">${r2.name}<button onclick="show('${r2.name}')">View</button></div>
-</div>`;
-}
-
-if(showL){
-card+=`
-<div class="meal lunch">
-<b>🍛 Lunch</b>
-<div class="item">${r2.name}<button onclick="show('${r2.name}')">View</button></div>
-<div class="item">${r1.name}<button onclick="show('${r1.name}')">View</button></div>
-</div>`;
-}
-
-if(showD){
-card+=`
-<div class="meal dinner">
-<b>🍲 Dinner</b>
-<div class="item">${r1.name}<button onclick="show('${r1.name}')">View</button></div>
-<div class="item">${r2.name}<button onclick="show('${r2.name}')">View</button></div>
-</div>`;
-}
-
-card+=`<p><b>🍎 Fruit:</b> ${fruit}</p></div>`;
-
-menu.innerHTML+=card;
-
-}
-
-}
-
-// SHOW POPUP
-
-function show(name){
-
-let type=document.getElementById("type").value;
-let list=recipeData[type] || recipeData["indian"];
-
-let r=list.find(x=>x.name===name) || list[0];
-let m=document.getElementById("members").innerText;
-
-document.getElementById("popup").style.display="flex";
-
-document.getElementById("title").innerText=name;
-
-document.getElementById("ingredients").innerText=
-r.ing+" (for "+m+" people)";
-
-document.getElementById("steps").innerText=r.steps;
-
-document.getElementById("health").innerText=r.health;
-
-currentVideo=r.video;
-
-}
-
-// VIDEO
-
-function watchVideo(){
-window.open("https://www.youtube.com/results?search_query="+currentVideo,"_blank");
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none";
-}
-
-generateMenu();
-
-</script>
-
+  <script src="./weekly_script.js"></script>
 </body>
 </html>
