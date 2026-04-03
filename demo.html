@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Cooking Planner</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(120deg,#84fab0,#8fd3f4);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#error {
+    color: red;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    vertical-align: top;
+}
+
+th {
+    background: #333;
+    color: white;
+}
+
+.recipe {
+    font-size: 13px;
+    margin-top: 5px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Weekly Cooking Planner</h1>
+
+<form onsubmit="return generatePlan()">
+
+<label>Food Preference:</label>
+<select id="foodType">
+    <option value="">Select</option>
+    <option value="veg">Vegetarian</option>
+    <option value="nonveg">Non-Vegetarian (Mixed)</option>
+</select>
+
+<br><br>
+
+<label>Select Meals:</label><br>
+<input type="checkbox" value="Breakfast"> Breakfast
+<input type="checkbox" value="Lunch"> Lunch
+<input type="checkbox" value="Dinner"> Dinner
+
+<br><br>
+
+<button type="submit">Generate Plan</button>
+
+<div id="error"></div>
+
+</form>
+
+<div id="output"></div>
+
+<script>
+
+function generatePlan() {
+
+let foodType = document.getElementById("foodType").value;
+let meals = document.querySelectorAll('input[type="checkbox"]:checked');
+let error = document.getElementById("error");
+let output = document.getElementById("output");
+
+error.innerHTML = "";
+output.innerHTML = "";
+
+if (foodType === "") {
+    error.innerHTML = "Select food type";
+    return false;
+}
+
+if (meals.length === 0) {
+    error.innerHTML = "Select at least one meal";
+    return false;
+}
+
+let selectedMeals = [];
+meals.forEach(m => selectedMeals.push(m.value));
+
+let vegMeals = [
+"Paneer Butter Masala","Masala Dosa","Veg Fried Rice",
+"Veg Noodles","Palak Paneer","Stuffed Capsicum",
+"Veg Manchurian","Spring Rolls","Cheese Sandwich"
+];
+
+let nonVegMeals = [
+"Chicken Biryani","Butter Chicken","Fish Curry",
+"Chicken Tikka","Egg Fried Rice","Chicken Noodles"
+];
+
+// Detailed recipes
+let recipes = {
+"Paneer Butter Masala":{
+ing:"200g paneer, 2 tomatoes, butter, cream, garlic, spices",
+steps:[
+"Heat 2 tbsp butter in pan",
+"Add chopped garlic and cook 1 min",
+"Add tomato puree and cook till oil separates",
+"Add spices and mix well",
+"Add paneer cubes and cook 5 min",
+"Add cream and simmer for 3 min"
+]},
+"Masala Dosa":{
+ing:"Dosa batter, potatoes, onion, spices",
+steps:[
+"Boil and mash potatoes",
+"Fry onion with spices and mix with potatoes",
+"Spread dosa batter on hot pan",
+"Cook till crisp",
+"Place filling and fold"
+]},
+"Chicken Biryani":{
+ing:"Chicken, rice, onion, yogurt, spices",
+steps:[
+"Marinate chicken with yogurt and spices for 30 min",
+"Cook rice separately (70% cooked)",
+"Fry onions till golden",
+"Layer rice and chicken",
+"Cover and cook on low flame 20 min"
+]},
+"Butter Chicken":{
+ing:"Chicken, butter, cream, tomato, spices",
+steps:[
+"Cook chicken pieces",
+"Prepare tomato gravy",
+"Add butter and spices",
+"Mix chicken into gravy",
+"Add cream and cook 5 min"
+]}
+};
+
+function getRecipe(item){
+return recipes[item] || {
+ing:"Ingredients available as per kitchen",
+steps:["Step 1: Prepare ingredients","Step 2: Cook properly","Step 3: Serve hot"]
+};
+}
+
+function shuffle(arr){
+return arr.sort(()=>Math.random()-0.5);
+}
+
+// MIX LOGIC
+let mealList = [];
+
+if(foodType==="veg"){
+mealList = vegMeals;
+}else{
+mealList = vegMeals.concat(nonVegMeals); // mix both
+}
+
+mealList = shuffle(mealList);
+
+let days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+let index = 0;
+
+// TABLE START
+let html = "<table><tr><th>Day</th>";
+
+selectedMeals.forEach(m=>{
+html += "<th>"+m+"</th>";
+});
+
+html += "</tr>";
+
+days.forEach(day=>{
+
+html += "<tr><td><b>"+day+"</b></td>";
+
+selectedMeals.forEach(meal=>{
+
+let cell = "";
+
+for(let i=0;i<2;i++){
+
+if(index >= mealList.length){
+mealList = shuffle(mealList);
+index = 0;
+}
+
+let item = mealList[index++];
+let r = getRecipe(item);
+
+cell += "<b>Option "+(i+1)+": "+item+"</b><br>";
+cell += "Ingredients: "+r.ing+"<br>";
+
+cell += "<div class='recipe'>";
+r.steps.forEach(s=>{
+cell += "• "+s+"<br>";
+});
+cell += "</div><br>";
+
+}
+
+html += "<td>"+cell+"</td>";
+
+});
+
+html += "</tr>";
+
+});
+
+html += "</table>";
+
+output.innerHTML = html;
+
+return false;
+}
+
+</script>
+
+</body>
+</html>

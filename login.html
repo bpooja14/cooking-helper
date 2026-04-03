@@ -233,34 +233,51 @@ Don't have account?
 
 <script>
 
-function validateLogin(){
+async function validateLogin(e) {
+  e.preventDefault();
 
-let mobile=document.getElementById("mobile").value;
-let password=document.getElementById("password").value;
-let remember=document.getElementById("remember").checked;
-let error=document.getElementById("errorMsg");
+  let mobile = document.getElementById("mobile").value;
+  let password = document.getElementById("password").value;
+  let remember = document.getElementById("remember").checked;
+  let error = document.getElementById("errorMsg");
 
-let pattern=/^[0-9]{10}$/;
+  let pattern = /^[0-9]{10}$/;
 
-if(!pattern.test(mobile)){
-error.innerHTML="Enter valid 10 digit mobile number";
-return false;
+  if (!pattern.test(mobile)) {
+      error.innerHTML = "Enter valid 10 digit mobile number";
+      return false;
+  }
+
+  if (password.length < 6) {
+      error.innerHTML = "Password must be at least 6 characters";
+      return false;
+  }
+
+  try {
+      let response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mobile: mobile, password: password })
+      });
+      
+      let data = await response.json();
+      
+      if (response.ok) {
+          if (remember) {
+              localStorage.setItem("userMobile", mobile);
+          }
+          window.location.href = "home.html"; // Redirect to home page which now connects to everything
+      } else {
+          error.innerHTML = data.message || "Invalid credentials!";
+      }
+  } catch (err) {
+      error.innerHTML = "Server error!";
+  }
+
+  return false;
 }
 
-if(password.length<6){
-error.innerHTML="Password must be at least 6 characters";
-return false;
-}
-
-if(remember){
-localStorage.setItem("userMobile",mobile);
-}
-
-alert("Login Successful");
-
-return true;
-
-}
+document.querySelector("form").addEventListener("submit", validateLogin);
 
 </script>
 

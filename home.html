@@ -207,10 +207,10 @@ flex-direction:column;
 <h2><i class="fa-solid fa-utensils"></i> Cooking Helper</h2>
 
 <ul>
-<li id="homeText">Home</li>
-<li id="menuText">Weekly Menu</li>
-<li id="recipeText">Recipes</li>
-<li id="ingredientText">Ingredients</li>
+<li id="homeText" data-key="home">Home</li>
+<li id="menuText" data-key="menu">Weekly Menu</li>
+<li id="recipeText" data-key="recipe">Recipes</li>
+<li id="ingredientText" data-key="ingredient">Ingredients</li>
 </ul>
 
 <select id="language" onchange="changeLanguage()">
@@ -223,20 +223,20 @@ flex-direction:column;
 
 <div class="hero">
 
-<h1 id="title">What Should I Cook Today?</h1>
+<h1 id="title" data-key="title">What Should I Cook Today?</h1>
 
-<p id="subtitle">Plan your daily meals easily</p>
+<p id="subtitle" data-key="subtitle">Plan your daily meals easily</p>
 
-<button id="todayBtn">View Today Menu</button>
+<button id="todayBtn" data-key="todayBtn">View Today Menu</button>
 
 <div class="auth-buttons">
 
 <a href="login.html">
-<button id="loginBtn">Login</button>
+<button id="loginBtn" data-key="login">Login</button>
 </a>
 
 <a href="registration.html">
-<button id="registerBtn">Register</button>
+<button id="registerBtn" data-key="register">Register</button>
 </a>
 
 </div>
@@ -245,134 +245,55 @@ flex-direction:column;
 
 <div class="section">
 
-<h2 id="explore">Explore Recipes</h2>
+<h2 id="explore" data-key="explore">Explore Recipes</h2>
 
 <div class="cards">
 
 <div class="card">
 <i class="fa-solid fa-bowl-food"></i>
-<h3 id="sabji">Sabji</h3>
-<button>View</button>
+<h3 id="sabji" data-key="sabji">Sabji</h3>
+<button data-key="explore">View</button>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-bread-slice"></i>
-<h3 id="roti">Roti</h3>
-<button>View</button>
+<h3 id="roti" data-key="roti">Roti</h3>
+<button data-key="explore">View</button>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-cake-candles"></i>
-<h3 id="sweet">Sweet Dish</h3>
-<button>View</button>
+<h3 id="sweet" data-key="sweet">Sweet Dish</h3>
+<button data-key="explore">View</button>
 </div>
 
 <div class="card">
 <i class="fa-solid fa-clock"></i>
-<h3 id="quick">Quick Recipes</h3>
-<button>View</button>
+<h3 id="quick" data-key="quick">Quick Recipes</h3>
+<button data-key="explore">View</button>
 </div>
 
 </div>
 
 </div>
 
+<script src="language.js"></script>
 <script>
+    fetch('/api/session').then(res => res.json()).then(data => {
+        if(data.loggedIn) {
+            let authButtons = document.querySelector('.auth-buttons');
+            authButtons.innerHTML = `<button onclick="handleLogout()">Logout</button> <span style="margin-left:15px; font-weight:bold; color:white;">Hi, ${data.name}</span>`;
+        }
+    });
 
-const translations={
+    function handleLogout() {
+      fetch('/api/logout', {method: 'POST'}).then(() => {
+        window.location.reload();
+      });
+    }
 
-en:{
-home:"Home",
-menu:"Weekly Menu",
-recipe:"Recipes",
-ingredient:"Ingredients",
-title:"What Should I Cook Today?",
-subtitle:"Plan your daily meals easily",
-todayBtn:"View Today Menu",
-explore:"Explore Recipes",
-sabji:"Sabji",
-roti:"Roti",
-sweet:"Sweet Dish",
-quick:"Quick Recipes",
-login:"Login",
-register:"Register"
-},
-
-mr:{
-home:"मुख्यपृष्ठ",
-menu:"आठवड्याचे मेनू",
-recipe:"रेसिपी",
-ingredient:"साहित्य",
-title:"आज काय बनवायचे?",
-subtitle:"दररोजच्या जेवणाची योजना करा",
-todayBtn:"आजचा मेनू पहा",
-explore:"रेसिपी पहा",
-sabji:"भाजी",
-roti:"पोळी",
-sweet:"गोड पदार्थ",
-quick:"झटपट रेसिपी",
-login:"लॉगिन",
-register:"नोंदणी"
-},
-
-hi:{
-home:"होम",
-menu:"साप्ताहिक मेनू",
-recipe:"रेसिपी",
-ingredient:"सामग्री",
-title:"आज क्या पकाएं?",
-subtitle:"अपने दैनिक भोजन की योजना बनाएं",
-todayBtn:"आज का मेनू देखें",
-explore:"रेसिपी देखें",
-sabji:"सब्जी",
-roti:"रोटी",
-sweet:"मिठाई",
-quick:"जल्दी बनने वाली रेसिपी",
-login:"लॉगिन",
-register:"रजिस्टर"
-}
-
-};
-
-function changeLanguage(){
-
-let lang=document.getElementById("language").value;
-
-localStorage.setItem("language",lang);
-
-applyLanguage(lang);
-
-}
-
-function applyLanguage(lang){
-
-document.getElementById("homeText").innerText=translations[lang].home;
-document.getElementById("menuText").innerText=translations[lang].menu;
-document.getElementById("recipeText").innerText=translations[lang].recipe;
-document.getElementById("ingredientText").innerText=translations[lang].ingredient;
-
-document.getElementById("title").innerText=translations[lang].title;
-document.getElementById("subtitle").innerText=translations[lang].subtitle;
-document.getElementById("todayBtn").innerText=translations[lang].todayBtn;
-
-document.getElementById("explore").innerText=translations[lang].explore;
-
-document.getElementById("sabji").innerText=translations[lang].sabji;
-document.getElementById("roti").innerText=translations[lang].roti;
-document.getElementById("sweet").innerText=translations[lang].sweet;
-document.getElementById("quick").innerText=translations[lang].quick;
-
-document.getElementById("loginBtn").innerText=translations[lang].login;
-document.getElementById("registerBtn").innerText=translations[lang].register;
-
-}
-
-let savedLang=localStorage.getItem("language") || "en";
-
-document.getElementById("language").value=savedLang;
-
-applyLanguage(savedLang);
-
+    document.getElementById("todayBtn").onclick = () => window.location.href="weeklyplan.html";
+    document.querySelector("nav ul").children[1].onclick = () => window.location.href="weeklyplan.html";
 </script>
 
 </body>

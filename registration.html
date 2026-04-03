@@ -1,310 +1,312 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<title>Register</title>
+    <title>Register</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Segoe UI",sans-serif;
-}
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg, #ff9966, #ff5e62);
+        }
 
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(120deg,#ff9966,#ff5e62);
-}
+        /* MAIN CONTAINER */
 
-/* MAIN CONTAINER */
+        .container {
+            width: 900px;
+            max-width: 95%;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
 
-.container{
-width:900px;
-max-width:95%;
-background:white;
-border-radius:12px;
-display:flex;
-overflow:hidden;
-box-shadow:0 15px 40px rgba(0,0,0,0.3);
-}
+        /* LEFT PANEL */
 
-/* LEFT PANEL */
+        .left {
+            flex: 1;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
 
-.left{
-flex:1;
-background:linear-gradient(135deg,#ff7e5f,#feb47b);
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-padding:40px;
-text-align:center;
-}
+        .left i {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
 
-.left i{
-font-size:70px;
-margin-bottom:20px;
-}
+        .left h1 {
+            margin-bottom: 10px;
+        }
 
-.left h1{
-margin-bottom:10px;
-}
+        /* RIGHT PANEL */
 
-/* RIGHT PANEL */
+        .right {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
 
-.right{
-flex:1;
-padding:30px;
-overflow-y:auto;
-}
+        .right h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.right h2{
-text-align:center;
-margin-bottom:20px;
-}
+        /* INPUT BOX */
 
-/* INPUT BOX */
+        .input-box {
+            position: relative;
+            margin-bottom: 12px;
+        }
 
-.input-box{
-position:relative;
-margin-bottom:12px;
-}
+        .input-box input,
+        .input-box select {
+            width: 100%;
+            padding: 12px 40px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
 
-.input-box input,
-.input-box select{
-width:100%;
-padding:12px 40px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:14px;
-}
+        .input-box i {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            color: #888;
+        }
 
-.input-box i{
-position:absolute;
-left:12px;
-top:12px;
-color:#888;
-}
+        /* BUTTON */
 
-/* BUTTON */
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #ff6b6b;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
 
-button{
-width:100%;
-padding:12px;
-border:none;
-background:#ff6b6b;
-color:white;
-font-size:16px;
-border-radius:6px;
-cursor:pointer;
-margin-top:10px;
-}
+        button:hover {
+            background: #ff4757;
+        }
 
-button:hover{
-background:#ff4757;
-}
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
 
-.login-link{
-text-align:center;
-margin-top:10px;
-font-size:14px;
-}
+        .login-link a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-.login-link a{
-color:#ff6b6b;
-text-decoration:none;
-font-weight:bold;
-}
+        .error {
+            color: red;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+        }
 
-.error{
-color:red;
-font-size:13px;
-text-align:center;
-margin-top:10px;
-}
+        /* RESPONSIVE */
 
-/* RESPONSIVE */
+        @media(max-width:768px) {
 
-@media(max-width:768px){
+            .container {
+                flex-direction: column;
+            }
 
-.container{
-flex-direction:column;
-}
+            .left {
+                padding: 25px;
+            }
 
-.left{
-padding:25px;
-}
+            .left i {
+                font-size: 50px;
+            }
 
-.left i{
-font-size:50px;
-}
-
-}
-
-</style>
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<!-- LEFT SIDE -->
+        <!-- LEFT SIDE -->
 
-<div class="left">
+        <div class="left">
 
-<i class="fa-solid fa-utensils"></i>
+            <i class="fa-solid fa-utensils"></i>
 
-<h1>Cooking Helper</h1>
+            <h1>Cooking Helper</h1>
 
-<p>Plan your daily cooking easily</p>
+            <p>Plan your daily cooking easily</p>
 
-</div>
+        </div>
 
-<!-- RIGHT SIDE -->
+        <!-- RIGHT SIDE -->
 
-<div class="right">
+        <div class="right">
 
-<h2>User Registration</h2>
+            <h2>User Registration</h2>
 
-<form onsubmit="return validateForm()">
+            <form onsubmit="return validateForm()">
 
-<div class="input-box">
-<i class="fa fa-user"></i>
-<input type="text" id="name" placeholder="Full Name" required>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-user"></i>
+                    <input type="text" id="name" placeholder="Full Name" required>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-phone"></i>
-<input type="text" id="mobile" placeholder="Mobile Number" required>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-phone"></i>
+                    <input type="text" id="mobile" placeholder="Mobile Number" required>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-calendar"></i>
-<input type="date" id="dob" onchange="calculateAge()" required>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-calendar"></i>
+                    <input type="date" id="dob" onchange="calculateAge()" required>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-user-clock"></i>
-<input type="text" id="age" placeholder="Age" readonly>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-user-clock"></i>
+                    <input type="text" id="age" placeholder="Age" readonly>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-users"></i>
-<select id="members" required>
-<option value="">Family Members</option>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-<option>5+</option>
-</select>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-users"></i>
+                    <select id="members" required>
+                        <option value="">Family Members</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5+</option>
+                    </select>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-lock"></i>
-<input type="password" id="password" placeholder="Password" required>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-leaf"></i>
+                    <select id="diet" required>
+                        <option value="">Dietary Preference</option>
+                        <option value="veg">Vegetarian (Pure)</option>
+                        <option value="non-veg">Non-Vegetarian</option>
+                    </select>
+                </div>
 
-<div class="input-box">
-<i class="fa fa-lock"></i>
-<input type="password" id="confirm" placeholder="Confirm Password" required>
-</div>
+                <div class="input-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
 
-<button type="submit">Register</button>
+                <div class="input-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" id="confirm" placeholder="Confirm Password" required>
+                </div>
 
-<p class="error" id="errorMsg"></p>
+                <button type="submit">Register</button>
 
-</form>
+                <p class="error" id="errorMsg"></p>
 
-<div class="login-link">
-Already have account?
-<a href="login.html">Login</a>
-</div>
+            </form>
 
-</div>
+            <div class="login-link">
+                Already have account?
+                <a href="login.html">Login</a>
+            </div>
 
-</div>
+        </div>
 
-<script>
+    </div>
 
-function calculateAge(){
+    <script>
 
-let dob=document.getElementById("dob").value;
+        function calculateAge() {
 
-if(dob=="") return;
+            let dob = document.getElementById("dob").value;
 
-let birthDate=new Date(dob);
-let today=new Date();
+            if (dob == "") return;
 
-let age=today.getFullYear()-birthDate.getFullYear();
+            let birthDate = new Date(dob);
+            let today = new Date();
 
-let m=today.getMonth()-birthDate.getMonth();
+            let age = today.getFullYear() - birthDate.getFullYear();
 
-if(m<0 || (m===0 && today.getDate()<birthDate.getDate())){
-age--;
-}
+            let m = today.getMonth() - birthDate.getMonth();
 
-document.getElementById("age").value=age;
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
 
-}
+            document.getElementById("age").value = age;
 
-function validateForm(){
+        }
 
-let name=document.getElementById("name").value;
-let mobile=document.getElementById("mobile").value;
-let address=document.getElementById("address").value;
-let password=document.getElementById("password").value;
-let confirm=document.getElementById("confirm").value;
+        async function validateForm(e) {
+            e.preventDefault();
 
-let error=document.getElementById("errorMsg");
+            let name = document.getElementById("name").value;
+            let mobile = document.getElementById("mobile").value;
+            let password = document.getElementById("password").value;
+            let confirm = document.getElementById("confirm").value;
+            let members = document.getElementById("members").value;
+            let diet = document.getElementById("diet").value;
+            let error = document.getElementById("errorMsg");
 
-let pattern=/^[0-9]{10}$/;
+            let pattern = /^[0-9]{10}$/;
 
-if(name==""){
-error.innerHTML="Enter your name";
-return false;
-}
+            if (name == "") { error.innerHTML = "Enter your name"; return false; }
+            if (!pattern.test(mobile)) { error.innerHTML = "Enter valid 10 digit mobile number"; return false; }
+            if (password.length < 6) { error.innerHTML = "Password must be at least 6 characters"; return false; }
+            if (password != confirm) { error.innerHTML = "Passwords do not match"; return false; }
 
-if(!pattern.test(mobile)){
-error.innerHTML="Enter valid 10 digit mobile number";
-return false;
-}
+            let parsedMembers = parseInt(members) || 1;
 
-if(address==""){
-error.innerHTML="Enter address";
-return false;
-}
+            try {
+                // SECURELY RUN PURE FRONTEND LOGIC (NO DB REQUIRED)
+                localStorage.setItem("userFullName", name);
+                localStorage.setItem("userMobile", mobile);
+                localStorage.setItem("userMembers", parsedMembers);
+                localStorage.setItem("userDiet", diet);
+                
+                alert("Registration Successful. Your dietary preference is saved!");
+                window.location.href = "login.html";
+            } catch (err) {
+                error.innerHTML = "Browser Storage error!";
+            }
 
-if(password.length<6){
-error.innerHTML="Password must be at least 6 characters";
-return false;
-}
+            return false;
+        }
 
-if(password!=confirm){
-error.innerHTML="Passwords do not match";
-return false;
-}
+        document.querySelector("form").addEventListener("submit", validateForm);
 
-alert("Registration Successful");
-
-return false;
-
-}
-
-</script>
+    </script>
 
 </body>
-</html>
 
+</html>
